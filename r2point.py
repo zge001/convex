@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, pow
 
 
 class R2Point:
@@ -11,11 +11,27 @@ class R2Point:
         if y is None:
             y = float(input("y -> "))
         self.x, self.y = x, y
+        # Является ли точка вершиной острого угла
+        self.is_vertex_of_acute_angle = False
 
     # Площадь треугольника
     @staticmethod
     def area(a, b, c):
         return 0.5 * ((a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x))
+
+    # Острый ли угол с вершиной b?
+    @staticmethod
+    def is_acute(a, b, c):
+        abx = a.x - b.x
+        aby = a.y - b.y
+        bcx = c.x - b.x
+        bcy = c.y - b.y
+        dot = abx * bcx + aby * bcy
+        return True if dot > 0 else False
+
+    def set_is_acute(self, a, b, c):
+        self.is_vertex_of_acute_angle = self.is_acute(a, b, c)
+        return self.is_vertex_of_acute_angle
 
     # Лежат ли точки на одной прямой?
     @staticmethod
@@ -45,7 +61,7 @@ class R2Point:
         return False
 
 
-if __name__ == "__main__":  # pragma: no cover
+if __name__ == "__main__":
     x = R2Point(1.0, 1.0)
     print(type(x), x.__dict__)
     print(x.dist(R2Point(1.0, 0.0)))
